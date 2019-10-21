@@ -4,7 +4,7 @@ __author__ = "Jon-Mikkel Korsvik"
 __email__ = "jonkors@nmbu.no"
 
 
-class LGCRand:
+class LCGRand:
     def _init__(self, seed):
         self.seed = seed
         self.a = 7**5
