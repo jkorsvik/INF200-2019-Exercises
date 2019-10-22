@@ -23,14 +23,14 @@ class ListRand:
         self.a = 7 ** 5
         self.m = 2 ** 31 - 1
         self.idx = 0
+        self.rand_list = []
 
     def rand(self):
         self.idx += 1
-        try:
-            self.list[self.idx] = (self.a * self.list[self.idx - 1]) % self.m
-            return self.list[self.idx]
-        except IndexError:
+        if self.idx == len(self.list):
             raise RuntimeError(
-                    'There are no more numbers to generate randomness from. \
-                    Try starting a new instance with a new list of numbers'
-                              )
+                'There are no more numbers to generate randomness from. \
+                Try starting a new instance with a new list of numbers'
+            )
+        self.rand_list.append((self.a * self.list[self.idx - 1]) % self.m)
+        return self.rand_list[self.idx]
