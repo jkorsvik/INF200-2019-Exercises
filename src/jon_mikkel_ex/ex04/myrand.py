@@ -14,7 +14,7 @@ class LCGRand:
     def rand(self):
         self.n += 1
         self.seed.append((self.a * self.seed[self.n - 1]) % self.m)
-        return self.seed
+        return self.seed[self.n]
 
 
 
