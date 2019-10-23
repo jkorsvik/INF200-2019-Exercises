@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+__author__ = 'Hans Ekkehard Plesser'
+__email__ = 'hans.ekkehard.plesser@nmbu.no'
+
 """
 Acceptance test suite for EX04.
 
@@ -7,15 +10,12 @@ Your code should pass these tests before submission.
 """
 
 import pytest
-from .myrand import LCGRand, ListRand
-from walker import Walker
-
-__author__ = 'Hans Ekkehard Plesser'
-__email__ = 'hans.ekkehard.plesser@nmbu.no'
+from src.jon_mikkel_ex.ex04.myrand import LCGRand, ListRand
+from src.jon_mikkel_ex.ex04.walker import Walker
 
 
 def test_lcg():
-    """Test that LCG generator works."""
+    """Test that LCG works."""
 
     lcg = LCGRand(346)
     assert lcg.rand() == 5815222
@@ -32,8 +32,7 @@ def test_list_rng():
 
 
 def test_walker():
-    """Test that Walker class can be used as required."""
-
+    """ Testing walking class for proper function"""
     start, home = 10, 20
     w = Walker(start, home)
     assert not w.is_at_home()
@@ -41,4 +40,3 @@ def test_walker():
     assert w.get_position() != start
     w.move()
     assert w.get_steps() == 2
-

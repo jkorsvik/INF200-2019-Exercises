@@ -3,6 +3,8 @@
 __author__ = "Jon-Mikkel Korsvik"
 __email__ = "jonkors@nmbu.no"
 
+from pprint import pprint
+
 
 class LCGRand:
     def __init__(self, seed):
@@ -31,6 +33,10 @@ class LCGRand:
 
 
 class ListRand:
+    """
+    Class that input a list and output that same list for each call of rand
+    :param: list_of_numbers - a list of numbers
+    """
     def __init__(self, list_of_numbers):
         self.list = list_of_numbers
         self.idx = 0
@@ -38,8 +44,28 @@ class ListRand:
     def rand(self):
         if self.idx == len(self.list):
             raise RuntimeError(
-                'There are no more numbers to generate randomness from. \
+                'There are no more numbers to generate "randomness" from. \
                 Try starting a new instance with a new list of numbers'
             )
         self.idx += 1
         return self.list[self.idx - 1]  # Returns the right number from list
+
+
+if __name__ == "__main__":
+    list_rand_test = ListRand([1, 43534534, 76589234, 1245])
+    print('Testing the ListRand Class: \n'
+          '----------------------------')
+    for x in range(1, 5):
+        print(f' {x}. Random number -> {list_rand_test.rand()}')
+
+    lgc_rand = LCGRand(123)
+    print('                 \n '
+          ' Testing the LCG Class with 123 as seed: \n'
+          '----------------------------')
+    for y in range(1, 11):
+        print(f' {y}. Random number -> {lgc_rand.rand()}')
+
+    print('\n'
+          'The list of all random numbers generated and used for the next: \n'
+          '-----------------------------')
+    pprint(lgc_rand.seed)

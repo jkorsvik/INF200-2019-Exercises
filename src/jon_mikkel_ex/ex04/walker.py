@@ -12,10 +12,8 @@ class Walker:
     Walker class, with methods for checking position and moving.
     Has its own method for finishing a trip home.
 
-    Input
-    ------
-    The club(starting position) - integer
-    Home(ending position) - integer
+    :param the_club: initial position of the walker
+    :param home: position of the walker's home
     """
     def __init__(self, the_club, home):
         self.position = the_club
@@ -69,5 +67,5 @@ if __name__ == "__main__":
             path_length.append(walkiehomie.make_the_trip())
         dict_of_path_lengths[end] = path_length
         pprint(
-            f'Distance: {end} -> Path lengths : {dict_of_path_lengths[end]}'
+            f'Distance: {end:4} -> Path lengths : {dict_of_path_lengths[end]}'
             )
