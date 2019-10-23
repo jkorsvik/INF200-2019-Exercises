@@ -34,7 +34,8 @@ class LCGRand:
 
 class ListRand:
     """
-    Class that input a list and output that same list for each call of rand
+    Class that input a list and output increments of that same list for
+    each call of rand
     :param: list_of_numbers - a list of numbers
     """
     def __init__(self, list_of_numbers):
