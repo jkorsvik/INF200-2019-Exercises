@@ -59,12 +59,13 @@ if __name__ == "__main__":
     
     Prints out a list of the number of steps per distance
     """
+    num_sim = 5
     list_of_distances = [1, 2, 5, 10, 20, 50, 100]
     dict_of_path_lengths = dict()
-    for idx, end in enumerate(list_of_distances):
+    for end in list_of_distances:
         path_length = []
-        for _ in range(5):  # 5 Experiments per distance
-            walkiehomie = Walker(0, end)
+        for _ in range(num_sim):  # Experiments per distance
+            walkiehomie = Walker(0, end)  # ex: 0-100 = 100 distance
             path_length.append(walkiehomie.make_the_trip())
         dict_of_path_lengths[end] = path_length
         pprint(
