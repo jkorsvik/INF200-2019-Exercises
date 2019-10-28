@@ -51,7 +51,7 @@ class Walker:
 
 if __name__ == "__main__":
     """
-    Making a list of the distances and making nested for-loop(woopsie)
+    Making a list of the distances and making nested for-loop
     for creating a dictionary over the number of steps for 5 experiments for 
     each distance.
     
