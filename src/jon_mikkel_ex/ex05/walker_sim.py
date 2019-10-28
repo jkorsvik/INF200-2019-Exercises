@@ -73,8 +73,6 @@ class Simulation:
         Random generator seed
         """
         self.walker = Walker(start_place, home)
-        self.start = start_place
-        self.home = home
         self.seed = random_seed(rand_seed)
 
     def single_walk(self):
