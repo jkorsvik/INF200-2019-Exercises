@@ -65,7 +65,7 @@ class BoundedSimulation:
 
     def walk_bounded(self):
         while True:
-            self.simulation 
+            self.simulation
             if self.bounded_walker.walker.is_at_home():
                 return self.bounded_walker.walker.is_at_home()
 
