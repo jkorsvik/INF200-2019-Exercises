@@ -41,7 +41,7 @@ class LCGRand:
         int
             A random number.
         """
-        yield self.rand()
+        yield RandIter(rand, 0)
 
 
 class RandIter:
@@ -59,7 +59,6 @@ class RandIter:
         self.generator = random_number_generator
         self.length = length
         self.num_generated_numbers = None
-        self.old = None
 
     def __iter__(self):
         """
@@ -74,8 +73,10 @@ class RandIter:
         RuntimeError
             If iter is called twice on the same RandIter object.
         """
-        if self == self.old:
-            raise RuntimeError('The same object has already been iterated')
+        if self.num_generated_numbers is not None:
+            raise RuntimeError(
+                'Can only initialise the iterator for the object once.')
+        self.num_generated_numbers = 0
         return self
 
     def __next__(self):
@@ -95,16 +96,15 @@ class RandIter:
             If ``self.length`` random numbers are generated.
         """
         if self.num_generated_numbers is None:
-            self.num_generated_numbers = 0
-        if self.num_generated_numbers > 
             raise RuntimeError('The iterator has to be called before function\
  next')
-
-        if  self.num_generated_numbers > self.length:
-            raise StopIteration('The length of sequence of numbers has\
+        if not self.length == 0:
+            if self.num_generated_numbers == self.length:
+                raise StopIteration('The length of sequence of numbers has\
  been met')
-        self._index += 1
-        return self.generator.rand
+        rand_number = self.generator.rand()
+        self.num_generated_numbers += 1
+        return rand_number
 
 
 if __name__ == "__main__":
