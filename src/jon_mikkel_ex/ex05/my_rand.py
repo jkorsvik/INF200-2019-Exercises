@@ -41,7 +41,11 @@ class LCGRand:
         int
             A random number.
         """
-        yield RandIter(rand, 0)
+        while True:
+            yield self.rand()
+        # Alternatively you could:
+        # return RandIter(self, 0)
+        # The code can handle both ways
 
 
 class RandIter:
@@ -57,7 +61,7 @@ class RandIter:
         The number of random numbers to generate
         """
         self.generator = random_number_generator
-        self.length = length
+        self.length = abs(length)
         self.num_generated_numbers = None
 
     def __iter__(self):
@@ -98,7 +102,7 @@ class RandIter:
         if self.num_generated_numbers is None:
             raise RuntimeError('The iterator has to be called before function\
  next')
-        if not self.length == 0:
+        if self.length > 0:
             if self.num_generated_numbers == self.length:
                 raise StopIteration('The length of sequence of numbers has\
  been met')
@@ -108,11 +112,11 @@ class RandIter:
 
 
 if __name__ == "__main__":
-    random_number_generator = LCGRand(1)
-    for rand in random_number_generator.random_sequence(10):
+    rand_number_generator = LCGRand(1)
+    for rand in rand_number_generator.random_sequence(10):
         print(rand)
 
-    for i, rand in random_number_generator.infinite_random_sequence():
+    for i, rand in enumerate(rand_number_generator.infinite_random_sequence()):
         print(f'The {i}-th random number is {rand}')
         if i > 100:
             break
