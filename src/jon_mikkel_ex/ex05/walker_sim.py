@@ -72,7 +72,8 @@ class Simulation:
         rand_seed : int
         Random generator seed
         """
-        self.walker = Walker(start_place, home)
+        self.start = start_place
+        self.home = home
         self.seed = random_seed(rand_seed)
 
     def single_walk(self):
@@ -80,7 +81,8 @@ class Simulation:
         Walker moves until is_at_home is true
         :return: get_steps: Number of steps taken until final position
         """
-        return self.walker.make_the_trip()
+        walker = Walker(self.start, self.home)
+        return walker.make_the_trip()
 
     def run_simulation(self, num_walks):
         """
