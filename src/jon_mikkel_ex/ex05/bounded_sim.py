@@ -64,6 +64,7 @@ class BoundedSimulation(Simulation):
         super().__init__(start, home, seed)
 
     def walk_bounded(self):
+        """"""
         while True:
             if self.walker.is_at_home():
                 return self.walker.walker.is_at_home()
