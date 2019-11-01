@@ -52,10 +52,9 @@ class Walker:
         Walker moves until is_at_home is true
         :return: get_steps: Number of steps taken until final position
         """
-        while True:
+        while not self.is_at_home():
             self.move()
-            if self.is_at_home():
-                return self.get_steps()
+        return self.get_steps()
 
 
 class Simulation:

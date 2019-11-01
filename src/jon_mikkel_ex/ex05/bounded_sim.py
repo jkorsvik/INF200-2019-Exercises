@@ -86,7 +86,7 @@ class BoundedSimulation(Simulation):
 if __name__ == "__main__":
   #  exp_walk = BoundedSimulation(0, 20, None, 20, 0)
    # print(exp_walk.run_simulation(20))
-    walker = BoundedWalker(0, 20, 20, 0)
+    walker = BoundedWalker(0, 20, 0, 20)
     print(walker.make_the_trip())
     """
     numb_of_walks = 20
