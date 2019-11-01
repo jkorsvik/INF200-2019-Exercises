@@ -117,6 +117,6 @@ if __name__ == "__main__":
         print(rand)
 
     for i, rand in enumerate(rand_number_generator.infinite_random_sequence()):
-        print(f'The {i}-th random number is {rand}')
+        print(f'The {i:3}-th random number is {rand}')
         if i > 100:
             break

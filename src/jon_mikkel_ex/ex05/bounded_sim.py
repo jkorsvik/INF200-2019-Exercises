@@ -7,13 +7,13 @@ from src.jon_mikkel_ex.ex05.walker_sim import Walker, Simulation
 
 
 class BoundedWalker(Walker):
-    def __init__(self, start, home, left_limit, right_limit):
+    def __init__(self, start_place, home, left_limit, right_limit):
         """
         Initialise the walker
 
         Arguments
         ---------
-        start : int
+        start_place : int
             The walker's initial position
         home : int
             The walk ends when the walker reaches home
@@ -24,14 +24,14 @@ class BoundedWalker(Walker):
         """
         self.left_limit = left_limit
         self.right_limit = right_limit
-        super().__init__(start, home)
+        super().__init__(start_place, home)
 
     def is_within_bounds(self):
         """
         Checks whether the walkers position is in between the outer limits
         :return: Boolean
         """
-        return self.left_limit < self.get_position() < self.right_limit
+        return self.left_limit <= self.get_position() <= self.right_limit
 
     def move(self):
         position_before_moving = self.get_position()
@@ -43,13 +43,13 @@ class BoundedWalker(Walker):
 
 
 class BoundedSimulation(Simulation):
-    def __init__(self, start, home, seed, left_limit, right_limit):
+    def __init__(self, start_place, home, seed, left_limit, right_limit):
         """
         Initialise the simulation
 
         Arguments
         ---------
-        start : int
+        start_place : int
             The walker's initial position
         home : int
             The walk ends when the walker reaches home
@@ -62,17 +62,17 @@ class BoundedSimulation(Simulation):
         """
         self.left_limit = left_limit
         self.right_limit = right_limit
-        super().__init__(start, home, seed)
+        super().__init__(start_place, home, seed)
 
     def single_walk(self):
         """
         Walker moves until is_at_home is true
         :return: get_steps: Number of steps taken until final position
         """
-        walker = BoundedWalker(
+        bounded_walker = BoundedWalker(
             self.start, self.home, self.left_limit, self.right_limit
                               )
-        return walker.make_the_trip()
+        return bounded_walker.make_the_trip()
 
     def run_bounded_sim(self, num_walks):
         list_of_steps = []
@@ -84,18 +84,12 @@ class BoundedSimulation(Simulation):
 
 
 if __name__ == "__main__":
-  #  exp_walk = BoundedSimulation(0, 20, None, 20, 0)
-   # print(exp_walk.run_simulation(20))
-    walker = BoundedWalker(0, 20, 0, 20)
-    print(walker.make_the_trip())
-    """
     numb_of_walks = 20
     start, end, right_boundary = 0, 20, 20
     list_of_left_boundaries = [0, -10, -100, -1000, -10000]
     for left_boundary in list_of_left_boundaries:
         exp_walk = BoundedSimulation(
-            start, end, None, right_boundary, left_boundary
+            start, end, None, left_boundary, right_boundary
                                     )
-        print(f'Left boundary: {left_boundary} List of distances:\
+        print(f'Left boundary: {left_boundary:4} List of distances:\
         {exp_walk.run_simulation(numb_of_walks)}')
-"""
