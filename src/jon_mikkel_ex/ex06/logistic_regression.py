@@ -172,8 +172,10 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
             A numpy random state object or a seed for a numpy random state object.
         """
         self.max_iter = max_iter
-        self.
-        pass
+        self.tol = tol
+        self.learn_rate = learning_rate
+        self.rand_state = random_state
+        
 
     def _has_converged(self, coef, X, y):
         r"""Whether the gradient descent algorithm has converged.
