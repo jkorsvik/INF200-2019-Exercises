@@ -171,8 +171,8 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         """
         self.max_iter = max_iter
         self.tol = tol
-        self.learn_rate = learning_rate
-        self.rand_state = random_state
+        self.learning_rate = learning_rate
+        self.random_state = random_state
         self.coef_ = None
 
     def _has_converged(self, coef, X, y):
@@ -242,9 +242,13 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         coef : np.ndarray(shape=(n,))
             The logistic regression weights
         """
+        self.coef_ = coef  # Storing the first value
+
         for _ in range(self.max_iter):
             coef = self.coef_
-            self.coef_ = coef - self.learn_rate*logistic_gradient(coef, X, y)
+            self.coef_ = coef - \
+                self.learning_rate*logistic_gradient(coef, X, y)
+
             if self._has_converged(coef, X, y):
                 return coef
 
@@ -269,7 +273,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         # you made in earlier coursework. It has all functions of
         # np.random, but its sequence of random numbers is not affected
         # by calls to np.random.
-        random_state = check_random_state(self.rand_state)
+        random_state = check_random_state(self.random_state)
         coef = random_state.standard_normal(X.shape[1])
 
         self.coef_ = self._fit_gradient_descent(coef, X, y)
