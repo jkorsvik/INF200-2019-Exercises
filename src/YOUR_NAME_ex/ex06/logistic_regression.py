@@ -476,19 +476,3 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
             Predicted classes for the input data matrix. len(yhat) == len(X)
         """
         return self.predict_proba(X) >= 0.5
-
-
-if __name__ == "__main__":
-    # Simulate a random dataset
-    X = np.random.standard_normal((100, 5))
-    coef = np.random.standard_normal(5)
-    y = predict_proba(coef, X) > 0.5
-
-    # Fit a logistic regression model to the X and y vector
-    # Fill in your code here.
-    # Create a logistic regression object and fit it to the dataset
-
-    # Print performance information
-    print(f"Accuracy: {lr_model.score(X, y)}")
-    print(f"True coefficients: {coef}")
-    print(f"Learned coefficients: {lr_model.coef_}")

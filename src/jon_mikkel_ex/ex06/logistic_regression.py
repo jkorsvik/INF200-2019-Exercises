@@ -9,8 +9,6 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
 from sklearn.utils import check_random_state, check_X_y
 
-(x[:, np.newaxis])
-
 
 def sigmoid(z):
     r"""Perform a logistic transform on the input.
@@ -175,7 +173,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         self.tol = tol
         self.learn_rate = learning_rate
         self.rand_state = random_state
-        
+        self.coef_ = None
 
     def _has_converged(self, coef, X, y):
         r"""Whether the gradient descent algorithm has converged.
@@ -206,7 +204,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         has_converged : bool
             True if the convergence criteria above is met, False otherwise.
         """
-        # Your code here
+        return norm(logistic_gradient(coef, X, y)) < self.tol
         pass
 
     def _fit_gradient_descent(self, coef, X, y):
@@ -244,8 +242,11 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         coef : np.ndarray(shape=(n,))
             The logistic regression weights
         """
-        cost = -((proba * np.log(proba)) + ((1 - y) @ np.log(1 - proba)))
-        pass
+        for _ in range(self.max_iter):
+            coef = self.coef_
+            self.coef_ = coef - self.learn_rate*logistic_gradient(coef, X, y)
+            if self._has_converged(coef, X, y):
+                return coef
 
     def fit(self, X, y):
         """Fit a logistic regression model to the data.
@@ -266,9 +267,9 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
 
         # A random state is a random number generator, akin to those
         # you made in earlier coursework. It has all functions of
-        # np.ranom, but its sequence of random numbers is not affected
+        # np.random, but its sequence of random numbers is not affected
         # by calls to np.random.
-        random_state = check_random_state(self.random_state)
+        random_state = check_random_state(self.rand_state)
         coef = random_state.standard_normal(X.shape[1])
 
         self.coef_ = self._fit_gradient_descent(coef, X, y)
@@ -338,7 +339,7 @@ if __name__ == "__main__":
     y = predict_proba(coef, X) > 0.5
 
     # Fit a logistic regression model to the X and y vector
-    # Fill in your code here.
+    # Fill in your code here. (x[:, np.newaxis])
     # Create a logistic regression object and fit it to the dataset
 
     # Print performance information
