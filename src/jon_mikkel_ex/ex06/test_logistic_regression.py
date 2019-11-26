@@ -1,10 +1,8 @@
+import pytest
 from contextlib import contextmanager
 from unittest import mock
-
 import numpy as np
-import pytest
-
-from . import logistic_regression as lr
+from src.jon_mikkel_ex.ex06 import logistic_regression as lr
 
 
 # The fixtures are called whenever their name is used as input to a test
