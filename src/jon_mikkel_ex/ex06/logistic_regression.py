@@ -33,7 +33,7 @@ def sigmoid(z):
     if type(z) is int or float:
         return 1 / (1 + np.exp(-z))
     if type(z) is np.ndarray:
-        sigmoidal_transformed_z = np.zeros_like(z)
+        sigmoidal_transformed_z = np.zeros_like(z, np.float64)
         for ind, val in enumerate(z):
             sigmoidal_transformed_z[ind] = 1 / (1 + np.exp(-val))
         return sigmoidal_transformed_z
@@ -71,7 +71,7 @@ def predict_proba(coef, X):
     p : np.ndarray(shape(n,))
         The predicted class probabilities.
     """
-    return sigmoid(X @ coef)
+    return sigmoid(X@coef)
 
 
 def logistic_gradient(coef, X, y):
@@ -173,7 +173,6 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         self.tol = tol
         self.learning_rate = learning_rate
         self.random_state = random_state
-        self.coef_ = None
 
     def _has_converged(self, coef, X, y):
         r"""Whether the gradient descent algorithm has converged.
@@ -205,7 +204,6 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
             True if the convergence criteria above is met, False otherwise.
         """
         return norm(logistic_gradient(coef, X, y)) < self.tol
-        pass
 
     def _fit_gradient_descent(self, coef, X, y):
         r"""Fit the logisitc regression model to the data given initial weights
@@ -242,15 +240,11 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         coef : np.ndarray(shape=(n,))
             The logistic regression weights
         """
-        self.coef_ = coef  # Storing the first value
-
         for _ in range(self.max_iter):
-            coef = self.coef_
-            self.coef_ = coef - \
-                self.learning_rate*logistic_gradient(coef, X, y)
+            coef = coef - self.learning_rate*logistic_gradient(coef, X, y)
 
             if self._has_converged(coef, X, y):
-                return coef
+                return coef  # Returns the vector that first converges
 
     def fit(self, X, y):
         """Fit a logistic regression model to the data.
@@ -275,6 +269,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         # by calls to np.random.
         random_state = check_random_state(self.random_state)
         coef = random_state.standard_normal(X.shape[1])
+        self.coef = coef
 
         self.coef_ = self._fit_gradient_descent(coef, X, y)
         return self
@@ -345,6 +340,9 @@ if __name__ == "__main__":
     # Fit a logistic regression model to the X and y vector
     # Fill in your code here. (x[:, np.newaxis])
     # Create a logistic regression object and fit it to the dataset
+    lr_model = LogisticRegression()
+    lr_model.fit(X, y)
+    print(f"Start coefficients: {lr_model.coef}")
 
     # Print performance information
     print(f"Accuracy: {lr_model.score(X, y)}")
