@@ -71,6 +71,8 @@ def predict_proba(coef, X):
     p : np.ndarray(shape(n,))
         The predicted class probabilities.
     """
+    print(type(coef), type(X))
+
     return sigmoid(X@coef)
 
 
@@ -240,11 +242,12 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         coef : np.ndarray(shape=(n,))
             The logistic regression weights
         """
-        for _ in range(self.max_iter):
-            coef = coef - self.learning_rate*logistic_gradient(coef, X, y)
-
-            if self._has_converged(coef, X, y):
-                return coef  # Returns the vector that first converges
+        iterations = 0
+        while (self._has_converged(coef, X, y) is not True
+               and iterations <= self.max_iter):
+            coef = coef - self.learning_rate * logistic_gradient(coef, X, y)
+            iterations += 1
+        return coef  # Returns the first coefficient that converges enough
 
     def fit(self, X, y):
         """Fit a logistic regression model to the data.
@@ -269,7 +272,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         # by calls to np.random.
         random_state = check_random_state(self.random_state)
         coef = random_state.standard_normal(X.shape[1])
-        self.coef = coef
+        self.org_coef = coef
 
         self.coef_ = self._fit_gradient_descent(coef, X, y)
         return self
@@ -336,13 +339,12 @@ if __name__ == "__main__":
     X = np.random.standard_normal((100, 5))
     coef = np.random.standard_normal(5)
     y = predict_proba(coef, X) > 0.5
-
     # Fit a logistic regression model to the X and y vector
-    # Fill in your code here. (x[:, np.newaxis])
+    # Fill in your code here.
     # Create a logistic regression object and fit it to the dataset
     lr_model = LogisticRegression()
     lr_model.fit(X, y)
-    print(f"Start coefficients: {lr_model.coef}")
+    print(f"Start coefficients: {lr_model.org_coef}")
 
     # Print performance information
     print(f"Accuracy: {lr_model.score(X, y)}")
