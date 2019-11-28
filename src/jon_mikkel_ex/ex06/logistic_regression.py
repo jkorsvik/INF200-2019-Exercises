@@ -224,11 +224,10 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         coef : np.ndarray(shape=(n,))
             The logistic regression weights
         """
-        iterations = 0
-        while (self._has_converged(coef, X, y) is not True
-               and iterations <= self.max_iter):
-            coef = coef - self.learning_rate * logistic_gradient(coef, X, y)
-            iterations += 1
+        for _ in range(self.max_iter):
+            coef += (self.learning_rate * logistic_gradient(coef, X, y))
+            if self._has_converged(coef, X, y):
+                break
         return coef  # Returns the first coefficient that converges enough
 
     def fit(self, X, y):
@@ -324,7 +323,7 @@ if __name__ == "__main__":
     # Fit a logistic regression model to the X and y vector
     # Fill in your code here.
     # Create a logistic regression object and fit it to the dataset
-    lr_model = LogisticRegression()
+    lr_model = LogisticRegression(max_iter=1000)
     lr_model.fit(X, y)
     print(f"Start coefficients: {lr_model.org_coef}")
 
